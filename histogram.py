@@ -51,6 +51,17 @@ print(stop)
 
 dateDiff = start - stop
 print(dateDiff)
+bin = dateDiff/10
+print(bin)
+
+print(df_sort_errorCode.dtypes)
+print("converting..")
+df_sort_errorCode['StopTime'] = pd.to_datetime(df_sort_errorCode['StopTime'], format='%Y-%d-%m %H:%M:%S')
+print(df_sort_errorCode.dtypes)
+df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
+print(df_sort_errorCode.head(20))
+#df_sort_errorCode.groupby(pd.TimeGrouper(freq = bin))
+
 #TODO: trzeba jakos podzielic to na przedzialy o danej szerokosci i zliczac liczbe elementow w danych przedzialach
 
 # bins = [2.0,4.0,6.0,8.0,10.0,12.0]
