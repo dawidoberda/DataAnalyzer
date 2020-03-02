@@ -53,16 +53,24 @@ dateDiff = start - stop
 print(dateDiff)
 bin = dateDiff/10
 print(bin)
+print(errorCode)
 
-print(df_sort_errorCode.dtypes)
+#print(df_sort_errorCode.dtypes)
 print("converting..")
 df_sort_errorCode['StopTime'] = pd.to_datetime(df_sort_errorCode['StopTime'], format='%Y-%d-%m %H:%M:%S')
-print(df_sort_errorCode.dtypes)
+#print(df_sort_errorCode.dtypes)
 df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
-print(df_sort_errorCode.head(20))
-#df_sort_errorCode.groupby(pd.TimeGrouper(freq = bin))
+#print(df_sort_errorCode.head(20))
+df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar")
+plt.xlabel('Date')
+plt.ylabel('Units')
 
-#TODO: trzeba jakos podzielic to na przedzialy o danej szerokosci i zliczac liczbe elementow w danych przedzialach
+plt.tight_layout()
+plt.xticks(rotation = 45)
+
+plt.show()
+
+#TODO: niby dzial. dorobic jakis interface do tego. i sprawdzic na wiekszym pliku i dla innych danych
 
 # bins = [2.0,4.0,6.0,8.0,10.0,12.0]
 
