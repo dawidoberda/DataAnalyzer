@@ -71,6 +71,8 @@ df_tester_sorted_list = []
 for tester_series in is_selected_tester_list:
     df_tester_sorted_list.append(df_sort_errorCode[tester_series])
 
+
+
 #print(df_tester_sorted_list)
 
 #TOTAL PRZYGOTOWANIE
@@ -80,11 +82,17 @@ df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
 
 #USTAWIENIA SUBPLOTU
 #TODO: trzeba dodac w przygotowanie po testerach zliczanie ile ma byc tych subplotow i zrobic rysowanie subplotow
+fig, axes = plt.subplots(nrows=3, ncols=1)
 
 #RYSOWANIE
 #TOTAL
-df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar")
+df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar", ax=axes[0])
 
+#PO TESTERACH
+df_tester = df_tester_sorted_list[0]
+df_tester['StopTime'] = pd.to_datetime(df_tester_sorted_list[0]['StopTime'], format='%Y-%d-%m %H:%M:%S')
+print(df_tester.dtypes) #TODO: tutaj dokonczyc brakuje chyba czegos w stylu tego df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
+df_tester.groupby(pd.Grouper(freq=bin))['SerialNumber'].count().plot(kind = "bar", ax = axes[1])
 
 #USTAWIENIA WYKRESU
 plt.xlabel('Date')
