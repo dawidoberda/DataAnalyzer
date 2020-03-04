@@ -55,24 +55,35 @@ bin = dateDiff/10
 print(bin)
 print(errorCode)
 
-#TOTAL
-print("converting..")
-df_sort_errorCode['StopTime'] = pd.to_datetime(df_sort_errorCode['StopTime'], format='%Y-%d-%m %H:%M:%S')
-df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
-df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar")
-
-#PO TESTERACH
+#PRZYGOTOWANIE PO TESTERACH
 testerList = df_sort_errorCode['AXLoggerName'].tolist()
 testerSet = set(testerList)
 print(f'Used testers : {testerSet}')
 
-#TODO: wydaja sie byc dwa takie same elementy, sprawdzic to
 is_selected_tester_list = []
 for tester in testerSet:
     print('creating series')
-    is_selected_tester = df_sort_errorCode['AXLoggerName'] == str(tester)
-    is_selected_tester_list.append(is_selected_tester)
-print(f'series of results for tester : \n {is_selected_tester_list}')
+    print(tester)
+    is_selected_tester_list.append(df_sort_errorCode['AXLoggerName'] == str(tester))
+
+df_tester_sorted_list = []
+#print(f'series of results for tester : \n {is_selected_tester_list}')
+for tester_series in is_selected_tester_list:
+    df_tester_sorted_list.append(df_sort_errorCode[tester_series])
+
+#print(df_tester_sorted_list)
+
+#TOTAL PRZYGOTOWANIE
+print("converting..")
+df_sort_errorCode['StopTime'] = pd.to_datetime(df_sort_errorCode['StopTime'], format='%Y-%d-%m %H:%M:%S')
+df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
+
+#USTAWIENIA SUBPLOTU
+#TODO: trzeba dodac w przygotowanie po testerach zliczanie ile ma byc tych subplotow i zrobic rysowanie subplotow
+
+#RYSOWANIE
+#TOTAL
+df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar")
 
 
 #USTAWIENIA WYKRESU
