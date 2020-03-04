@@ -55,13 +55,27 @@ bin = dateDiff/10
 print(bin)
 print(errorCode)
 
-#print(df_sort_errorCode.dtypes)
+#TOTAL
 print("converting..")
 df_sort_errorCode['StopTime'] = pd.to_datetime(df_sort_errorCode['StopTime'], format='%Y-%d-%m %H:%M:%S')
-#print(df_sort_errorCode.dtypes)
 df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
-#print(df_sort_errorCode.head(20))
 df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar")
+
+#PO TESTERACH
+testerList = df_sort_errorCode['AXLoggerName'].tolist()
+testerSet = set(testerList)
+print(f'Used testers : {testerSet}')
+
+#TODO: wydaja sie byc dwa takie same elementy, sprawdzic to
+is_selected_tester_list = []
+for tester in testerSet:
+    print('creating series')
+    is_selected_tester = df_sort_errorCode['AXLoggerName'] == str(tester)
+    is_selected_tester_list.append(is_selected_tester)
+print(f'series of results for tester : \n {is_selected_tester_list}')
+
+
+#USTAWIENIA WYKRESU
 plt.xlabel('Date')
 plt.ylabel('Units')
 
