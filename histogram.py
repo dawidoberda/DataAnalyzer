@@ -57,7 +57,8 @@ print(errorCode)
 
 #PRZYGOTOWANIE PO TESTERACH
 testerList = df_sort_errorCode['AXLoggerName'].tolist()
-testerSet = set(testerList)
+#testerSet = set(testerList)
+testerSet = list(dict.fromkeys(testerList))
 print(f'Used testers : {testerSet}')
 
 is_selected_tester_list = []
@@ -89,31 +90,23 @@ fig, axes = plt.subplots(nrows = int(numberOfPlotes) , ncols=1)
 #RYSOWANIE
 #TOTAL
 df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar", ax=axes[0])
+axes[0].set_title('Total')
+axes[0].set_xlabel('Date')
+axes[0].set_ylabel('Units')
+axes[0].tick_params(labelrotation = 45)
+#TODO: sprawdzic jak zmienic tak aby kazdy wykres mial taka sama os
 
 #PO TESTERACH
-# for i in range(0, numberOfTesters):
-#     df_tester_sorted_list[i]['StopTime'] = pd.to_datetime(df_tester_sorted_list[i]['StopTime'], format='%Y-%d-%m %H:%M:%S')
-#     df_tester_sorted_list[i].set_index('StopTime', drop = False, inplace = True)
-#     df_tester_sorted_list[i].groupby(pd.Grouper(freq=bin))['SerialNumber'].count().plot(kind = "bar", ax = axes[i+1])
+for i in range(0, numberOfTesters):
+    df_tester_sorted_list[i]['StopTime'] = pd.to_datetime(df_tester_sorted_list[i]['StopTime'], format='%Y-%d-%m %H:%M:%S')
+    df_tester_sorted_list[i].set_index('StopTime', drop = False, inplace = True)
+    df_tester_sorted_list[i].groupby(pd.Grouper(freq=bin))['SerialNumber'].count().plot(kind = "bar", ax = axes[i+1])
+    axes[i+1].set_title(testerSet[i])
+    axes[i+1].set_title('Total')
+    axes[i+1].set_xlabel('Date')
+    axes[i+1].set_ylabel('Units')
+    axes[i+1].tick_params(labelrotation=45)
 
-df_tester_sorted_list[0]['StopTime'] = pd.to_datetime(df_tester_sorted_list[0]['StopTime'], format='%Y-%d-%m %H:%M:%S')
-df_tester_sorted_list[0].set_index('StopTime', drop = False, inplace = True)
-df_tester_sorted_list[0].groupby(pd.Grouper(freq=bin))['SerialNumber'].count().plot(kind = "bar", ax = axes[1])
-print(df_tester_sorted_list[0])
-#TODO: z jakiegos powodu zamienia miejscami elementy listy. najprawdopodobniej dlatego ze set nie ma kolejnosci. trzeba to jakos zmienic na liste i wywalac duplikaty
-print("===============")
-
-print(df_tester_sorted_list[1])
-
-# df_tester_sorted_list[1]['StopTime'] = pd.to_datetime(df_tester_sorted_list[1]['StopTime'], format='%Y-%d-%m %H:%M:%S')
-# df_tester_sorted_list[1].set_index('StopTime', drop = False, inplace = True)
-# df_tester_sorted_list[1].groupby(pd.Grouper(freq=bin))['SerialNumber'].count().plot(kind = "bar", ax = axes[2])
-
-#USTAWIENIA WYKRESU
-plt.xlabel('Date')
-plt.ylabel('Units')
-
-plt.xticks(rotation = 45)
 
 plt.show()
 
