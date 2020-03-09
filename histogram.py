@@ -85,29 +85,44 @@ df_sort_errorCode.set_index('StopTime', drop = False, inplace = True)
 numberOfTesters = len(testerSet)
 numberOfPlotes = numberOfTesters + 1 #+1 bo jeszcze total
 print(f'Number of plotes : {numberOfPlotes}')
-fig, axes = plt.subplots(nrows = int(numberOfPlotes) , ncols=1)
+fig, axes = plt.subplots(nrows = int(numberOfPlotes) , ncols=1, sharey=True)
 
 #RYSOWANIE
 #TOTAL
 df_sort_errorCode.groupby(pd.Grouper(freq = bin))['SerialNumber'].count().plot(title = errorCode, kind = "bar", ax=axes[0])
-axes[0].set_title('Total')
-axes[0].set_xlabel('Date')
+axes[0].set_title('TOTAL')
+#axes[0].set_xlabel('Date')
 axes[0].set_ylabel('Units')
-axes[0].tick_params(labelrotation = 45)
-#TODO: sprawdzic jak zmienic tak aby kazdy wykres mial taka sama os
+#axes[0].tick_params(labelrotation = 45)
+axes[0].tick_params(axis='x',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    bottom=False,      # ticks along the bottom edge are off
+    top=False,         # ticks along the top edge are off
+    labelbottom=False)
 
 #PO TESTERACH
 for i in range(0, numberOfTesters):
     df_tester_sorted_list[i]['StopTime'] = pd.to_datetime(df_tester_sorted_list[i]['StopTime'], format='%Y-%d-%m %H:%M:%S')
     df_tester_sorted_list[i].set_index('StopTime', drop = False, inplace = True)
     df_tester_sorted_list[i].groupby(pd.Grouper(freq=bin))['SerialNumber'].count().plot(kind = "bar", ax = axes[i+1])
-    axes[i+1].set_title(testerSet[i])
-    axes[i+1].set_title('Total')
-    axes[i+1].set_xlabel('Date')
-    axes[i+1].set_ylabel('Units')
-    axes[i+1].tick_params(labelrotation=45)
+    if i == numberOfTesters -1 :
+        axes[i + 1].set_title(testerSet[i])
+        axes[i + 1].set_xlabel('Date')
+        axes[i + 1].set_ylabel('Units')
+        axes[i + 1].tick_params(axis='x', which='both', labelrotation=45, labelsize=5)
+    else:
+        axes[i+1].set_title(testerSet[i])
+        axes[i+1].set_ylabel('Units')
+        axes[i+1].tick_params(axis='x',          # changes apply to the x-axis
+            which='both',      # both major and minor ticks are affected
+            bottom=False,      # ticks along the bottom edge are off
+            top=False,         # ticks along the top edge are off
+            labelbottom=False)
 
-
+fig.tight_layout()
+fig.set_size_inches(10.5, 10.5, forward=True)
+fig.suptitle(str(errorCode))
+plt.subplots_adjust(bottom=0.15, hspace=0.3)
 plt.show()
 
 #TODO: niby dzial. dorobic jakis interface do tego. i sprawdzic na wiekszym pliku i dla innych danych
