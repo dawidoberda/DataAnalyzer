@@ -1,4 +1,47 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Histogram Page</h1>
+    <form>
+        <div class="form-group">
+            <h5 class="p-2" for="exampleFormControlFile1">Chose report file</h5>
+            <input type="file" class="form-control-file; p-2" id="exampleFormControlFile1">
+        </div>
+    </form>
+    <h5 class="p-2">Load Data From Report File</h5>
+    <div class="pl-2">
+        <button type="button" class="btn btn-dark">Load</button>
+    </div>
+
+    <h5 class="p-2">Data Select</h5>
+    <!-- Input Data selected from list from DataFrame -->
+    <div class="btn-group">
+        <div class="pl-2">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Select Assembly
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Assembly One</a>
+            <a class="dropdown-item" href="#">Assembly Two</a>
+        </div>
+        </div>
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Select Step
+         </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Error Code one</a>
+            <a class="dropdown-item" href="#">Error Code Two</a>
+        </div>
+    </div>
+    <!-- Load data button -->
+    <div class="p-2" >
+        <h5>Click to Generate histogram plot</h5>
+        <button type="button" class="btn btn-dark">Generate</button>
+    </div>
+
+
+
+
+
 {% endblock content %}
