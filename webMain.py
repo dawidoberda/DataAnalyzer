@@ -13,6 +13,7 @@ def home():
 @app.route("/histogram")
 def histogram():
     return render_template('histogram.html')
+#TODO: histogram przerobiony na klase. teraz trzeba zrobic aby ta klase obslugiwalo sie z web
 
 @app.route("/about")
 def about():
