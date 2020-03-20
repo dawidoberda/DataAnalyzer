@@ -1,12 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Histogram Page</h1>
-    <form>
+    <!-- Report File load -->
+    <form method="POST" action="" enctype="multipart/form-data">
         <div class="form-group">
-            <h5 class="p-2" for="exampleFormControlFile1">Chose report file</h5>
-            <input type="file" class="form-control-file; p-2" id="exampleFormControlFile1">
+            <h5 class="p-2" for="reportFile">Chose report file</h5>
+            <input type="file" class="form-control-file; p-2" id="reportFile" name="reportFile">
+            <input type="submit" value=Upload>
+            <!--<button type="submit" name="button" class="btn btn-dark">Submit</button>-->
         </div>
     </form>
+    <!-- load data from report to lists -->
     <h5 class="p-2">Load Data From Report File</h5>
     <div class="pl-2">
         <button type="button" class="btn btn-dark">Load</button>
